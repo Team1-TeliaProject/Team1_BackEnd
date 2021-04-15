@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 const { userRouter } = require('./routes/usersRouter');
 const { jobRouter } = require('./routes/jobsRouter');
-const { jobRouter } = require('./routes/matchesRouter');
+const { matchRouter } = require('./routes/matchesRouter');
 
 app.use(cors);
 app.use(express.json()); //handles body data

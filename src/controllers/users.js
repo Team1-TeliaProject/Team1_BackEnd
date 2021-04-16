@@ -4,7 +4,7 @@ const JWT = require('jsonwebtoken');
 // const Admin = require('../modals/Admin');
 const { SECRET } = require('../utils/config');
 
-export const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
   try {
     const venues = await Admin.find({});
     res.json(venues);
@@ -13,7 +13,7 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-export const registerUsers = async (req, res, next) => {
+const registerUsers = async (req, res, next) => {
   try {
     const { firstName, lastName, email, password } = req.body;
     const existingAdmin = await Admin.findOne({ email: email });
@@ -40,7 +40,7 @@ export const registerUsers = async (req, res, next) => {
   }
 };
 
-export const logUser = async (req, res) => {
+const logUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await Admin.findOne({ email: email });
@@ -61,4 +61,10 @@ export const logUser = async (req, res) => {
   } catch (error) {
     res.status(401).json({ error: error.message });
   }
+};
+
+module.exports = {
+  getAllUsers,
+  registerUsers,
+  logUser,
 };

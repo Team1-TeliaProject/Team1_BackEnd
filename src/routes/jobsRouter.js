@@ -1,11 +1,11 @@
-export const jobsRouter = require('express').Router();
-import {
+const jobsRouter = require('express').Router();
+const {
   getAllJobs,
   getOneJob,
   createJob,
   updateJob,
   deleteJob,
-} from '../controllers/jobs';
+} = require('../controllers/jobs');
 
 jobsRouter.get('/', getAllJobs);
 jobsRouter.get('/:jobId', getOneJob);

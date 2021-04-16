@@ -1,18 +1,20 @@
-export const usersRouter = require('express').Router();
-import {
+const usersRouter = require('express').Router();
+const {
   getAllUsers,
-  getUsersByType,
-  getOneUser,
+  // getUsersByType,
+  // getOneUser,
   registerUsers,
   logUser,
-  updateUser,
-  deleteUser,
-} from '../controllers/user';
+  // updateUser,
+  // deleteUser,
+} = require('../controllers/users');
 
 usersRouter.get('/', getAllUsers);
-usersRouter.get('/:userType', getUsersByType);
-usersRouter.get('/:userId', getOneUser);
+// usersRouter.get('/:userType', getUsersByType);
+// usersRouter.get('/:userId', getOneUser);
 usersRouter.post('/register', registerUsers);
 usersRouter.post('/login', logUser);
-usersRouter.put('/:userId', updateUser);
-usersRouter.put('/:userId', deleteUser);
+// usersRouter.put('/:userId', updateUser);
+// usersRouter.put('/:userId', deleteUser);
+
+module.exports = usersRouter;

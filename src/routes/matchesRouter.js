@@ -1,5 +1,5 @@
-export const matchesRouter = require('express').Router();
-import { getAllMatches, createMatch } from '../controllers/matches';
+const matchesRouter = require('express').Router();
+const { getAllMatches, createMatch } = require('../controllers/matches');
 
 matchesRouter.get('/:userId', getAllMatches);
 matchesRouter.post('/', createMatch);

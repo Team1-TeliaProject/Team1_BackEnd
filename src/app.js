@@ -5,8 +5,8 @@ const mongoose = require('mongoose');
 
 const { MONGODB_URI } = require('./utils/config');
 const userRouter = require('./routes/usersRouter');
-// const { jobRouter } = require('./routes/jobsRouter');
-// const { matchRouter } = require('./routes/matchesRouter');
+const jobRouter = require('./routes/jobsRouter');
+const matchRouter = require('./routes/matchesRouter');
 
 app.use(cors);
 app.use(express.json()); //handles body data
@@ -27,7 +27,7 @@ mongoose
   });
 
 app.use('/api/users', userRouter);
-// app.use('/api/jobs', jobRouter);
-// app.use('/api/matches', matchRouter);
+app.use('/api/jobs', jobRouter);
+app.use('/api/matches', matchRouter);
 
 module.exports = app;

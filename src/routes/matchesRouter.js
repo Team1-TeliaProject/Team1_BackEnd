@@ -3,3 +3,5 @@ const { getAllMatches, createMatch } = require('../controllers/matches');
 
 matchesRouter.get('/:userId', getAllMatches);
 matchesRouter.post('/', createMatch);
+
+module.exports = matchesRouter;

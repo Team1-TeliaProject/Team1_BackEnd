@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const companySchema = new mongoose.Schema({
   matches: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -15,21 +15,9 @@ const userSchema = new mongoose.Schema({
     },
   ],
 
-  userType: {
+  name: {
     type: String,
-    required: 'User type is required',
-  },
-
-  firstName: {
-    type: String,
-  },
-
-  lastName: {
-    type: String,
-  },
-
-  companyName: {
-    type: String,
+    required: 'Name is required',
   },
 
   email: {
@@ -42,23 +30,7 @@ const userSchema = new mongoose.Schema({
     required: 'Password is required',
   },
 
-  phone: {
-    type: String,
-  },
-
   location: {
-    type: String,
-  },
-
-  title: {
-    type: String,
-  },
-
-  gitHub: {
-    type: String,
-  },
-
-  linkedin: {
     type: String,
   },
 
@@ -70,25 +42,12 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
 
-  level: {
-    type: String,
-  },
-
-  type: {
-    type: String,
-  },
-
-  techs: [
-    {
-      type: String,
-    },
-  ],
-  photo: {
+  logo: {
     type: String,
   },
 });
 
-userSchema.set('toJSON', {
+companySchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -96,4 +55,4 @@ userSchema.set('toJSON', {
   },
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Company', companySchema);

@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const { MONGODB_URI } = require('./utils/config');
+const jobsRouter = require('./routes/jobsRouter');
 const talentsRouter = require('./routes/talentsRouter');
 const companiesRouter = require('./routes/companiesRouter');
 
@@ -23,6 +24,7 @@ mongoose
     console.log('error connection to MongoDB:', error.message);
   });
 
+app.use('/api/jobs', jobsRouter);
 app.use('/api/talents', talentsRouter);
 app.use('/api/companies', companiesRouter);
 

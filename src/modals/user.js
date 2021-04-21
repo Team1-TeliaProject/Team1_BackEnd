@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema({
     },
   ],
 
+  userType: {
+    type: String,
+    required: 'User type is required',
+  },
+
   firstName: {
     type: String,
   },
@@ -22,13 +27,16 @@ const userSchema = new mongoose.Schema({
   lastName: {
     type: String,
   },
+
   companyName: {
     type: String,
   },
+
   email: {
     type: String,
     required: 'Email is required',
   },
+
   password: {
     type: String,
     required: 'Password is required',

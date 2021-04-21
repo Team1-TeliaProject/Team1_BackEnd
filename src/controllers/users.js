@@ -1,29 +1,28 @@
 const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
 
-// const Admin = require('../modals/Admin');
+const User = require('../modals/user');
 const { SECRET } = require('../utils/config');
 
-const getAllUsers = async (req, res) => {
-  try {
-    const venues = await Admin.find({});
-    res.json(venues);
-  } catch (error) {
-    console.log('errorr--', error);
-  }
-};
+// const getAllUsers = async (req, res) => {
+//   try {
+//     const users = await User.find({});
+//     res.json(users);
+//   } catch (error) {
+//     console.log('errorr--', error);
+//   }
+// };
 
-const registerUsers = async (req, res, next) => {
+const registerUsers = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
-    const existingAdmin = await Admin.findOne({ email: email });
+    const saltRounds = 10;
 
-    if (existingAdmin) {
-      throw new Error('Account with the given Email already exists');
-    } else if (password.length < 4) {
-      throw new Error('Password must be atleast 4 characters long');
+    const existingUser = await User.findOne({ email: email });
+
+    if (existingUser) {
+      throw new Error('User with the given email already exist');
     } else {
-      const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
       const newUser = {
         firstName,
@@ -31,8 +30,7 @@ const registerUsers = async (req, res, next) => {
         email,
         password: hashedPassword,
       };
-
-      const savedUser = await new Admin(newUser).save();
+      const savedUser = await new User(newUser).save();
       res.json(savedUser);
     }
   } catch (error) {
@@ -43,7 +41,7 @@ const registerUsers = async (req, res, next) => {
 const logUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await Admin.findOne({ email: email });
+    const user = await User.findOne({ email: email });
     const correctPassword = !user
       ? null
       : await bcrypt.compare(password, user.password);
@@ -64,7 +62,7 @@ const logUser = async (req, res) => {
 };
 
 module.exports = {
-  getAllUsers,
+  // getAllUsers,
   registerUsers,
   logUser,
 };

@@ -68,9 +68,11 @@ const talentSchema = new mongoose.Schema({
     type: String,
   },
 
-  type: {
-    type: String,
-  },
+  type: [
+    {
+      type: String,
+    },
+  ],
 
   techs: [
     {

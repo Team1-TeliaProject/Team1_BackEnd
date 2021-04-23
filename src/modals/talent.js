@@ -8,6 +8,18 @@ const talentSchema = new mongoose.Schema({
     },
   ],
 
+  likes: [
+    {
+      type: String,
+    },
+  ],
+
+  superLikes: [
+    {
+      type: String,
+    },
+  ],
+
   firstName: {
     type: String,
     required: 'FirstName is required',

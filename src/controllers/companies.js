@@ -23,35 +23,14 @@ const registerCompany = async (req, res) => {
         website: '',
         about: '',
         logo: '',
+        likes: [],
+        superLikes: [],
       };
       const savedUser = await new Company(newUser).save();
       res.json(savedUser);
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
-  }
-};
-
-const logCompany = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await Company.findOne({ email: email });
-    const correctPassword = !user
-      ? null
-      : await bcrypt.compare(password, user.password);
-    if (!(user && correctPassword)) {
-      throw new Error('Email and password not matched!');
-    }
-
-    const userInfo = {
-      email,
-      name: user.name,
-      userId: user.id,
-    };
-    const token = await JWT.sign(userInfo, SECRET);
-    res.status(200).send({ token, userInfo });
-  } catch (error) {
-    res.status(401).json({ error: error.message });
   }
 };
 
@@ -121,7 +100,6 @@ const deleteCompany = async (req, res) => {
 
 module.exports = {
   registerCompany,
-  logCompany,
   getCompanies,
   getOneCompany,
   updateCompany,

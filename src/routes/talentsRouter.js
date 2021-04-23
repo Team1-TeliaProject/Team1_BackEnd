@@ -1,7 +1,6 @@
 const talentsRouter = require('express').Router();
 const {
   registerTalent,
-  logTalent,
   getTalents,
   getOneTalent,
   updateTalent,
@@ -11,7 +10,6 @@ const {
 talentsRouter.get('/', getTalents);
 talentsRouter.get('/:userId', getOneTalent);
 talentsRouter.post('/register', registerTalent);
-talentsRouter.post('/login', logTalent);
 talentsRouter.put('/:userId', updateTalent);
 talentsRouter.delete('/:userId', deleteTalent);
 

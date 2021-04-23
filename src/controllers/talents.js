@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
 
 const Talent = require('../modals/talent');
+const Company = require('../modals/company');
 const { SECRET } = require('../utils/config');
 
 const registerTalent = async (req, res) => {
@@ -30,6 +31,8 @@ const registerTalent = async (req, res) => {
         type: '',
         techs: [],
         photo: '',
+        likes: [],
+        superLikes: [],
       };
       const savedUser = await new Talent(newUser).save();
       res.json(savedUser);
@@ -39,28 +42,7 @@ const registerTalent = async (req, res) => {
   }
 };
 
-const logTalent = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await Talent.findOne({ email: email });
-    const correctPassword = !user
-      ? null
-      : await bcrypt.compare(password, user.password);
-    if (!(user && correctPassword)) {
-      throw new Error('Email and password not matched!');
-    }
-
-    const userInfo = {
-      email,
-      name: user.name,
-      userId: user.id,
-    };
-    const token = await JWT.sign(userInfo, SECRET);
-    res.status(200).send({ token, userInfo });
-  } catch (error) {
-    res.status(401).json({ error: error.message });
-  }
-};
+//Login
 
 const getTalents = async (req, res) => {
   try {
@@ -153,7 +135,6 @@ const deleteTalent = async (req, res) => {
 
 module.exports = {
   registerTalent,
-  logTalent,
   getTalents,
   getOneTalent,
   updateTalent,

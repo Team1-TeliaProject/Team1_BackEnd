@@ -7,6 +7,7 @@ const { MONGODB_URI } = require('./utils/config');
 const jobsRouter = require('./routes/jobsRouter');
 const talentsRouter = require('./routes/talentsRouter');
 const companiesRouter = require('./routes/companiesRouter');
+const loginRouter = require('./routes/loginRouter');
 
 app.use(cors());
 app.use(express.json());
@@ -27,5 +28,6 @@ mongoose
 app.use('/api/jobs', jobsRouter);
 app.use('/api/talents', talentsRouter);
 app.use('/api/companies', companiesRouter);
+app.use('/api/login', loginRouter);
 
 module.exports = app;

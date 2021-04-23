@@ -15,6 +15,18 @@ const companySchema = new mongoose.Schema({
     },
   ],
 
+  likes: [
+    {
+      type: String,
+    },
+  ],
+
+  superLikes: [
+    {
+      type: String,
+    },
+  ],
+
   name: {
     type: String,
     required: 'Name is required',

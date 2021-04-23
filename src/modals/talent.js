@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const talentSchema = new mongoose.Schema({
   matches: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -8,28 +8,26 @@ const userSchema = new mongoose.Schema({
     },
   ],
 
-  jobs: [
+  likes: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Job',
+      type: String,
     },
   ],
 
-  userType: {
-    type: String,
-    required: 'User type is required',
-  },
+  superLikes: [
+    {
+      type: String,
+    },
+  ],
 
   firstName: {
     type: String,
+    required: 'FirstName is required',
   },
 
   lastName: {
     type: String,
-  },
-
-  companyName: {
-    type: String,
+    required: 'LastName is required',
   },
 
   email: {
@@ -54,15 +52,11 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
 
-  gitHub: {
+  github: {
     type: String,
   },
 
   linkedin: {
-    type: String,
-  },
-
-  website: {
     type: String,
   },
 
@@ -88,7 +82,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.set('toJSON', {
+talentSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -96,4 +90,4 @@ userSchema.set('toJSON', {
   },
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Talent', talentSchema);

@@ -5,9 +5,14 @@ const matchSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Job',
   },
-  user: {
+  talent: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Talent',
+  },
+
+  company: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Company',
   },
 });
 

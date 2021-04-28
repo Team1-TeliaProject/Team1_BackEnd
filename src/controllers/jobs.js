@@ -1,4 +1,5 @@
-const Job = require("../modals/job.js");
+const Job = require('../modals/job.js');
+const Company= require('../modals/company')
 
 const getAllJobs = async (req, res, next) => {
   //loads all the jobs from the db, filtering done on client side
@@ -19,15 +20,31 @@ const getOneJob = async (req, res, next) => {
     res.json({ Error: err.message });
   }
 };
-const createJob = async (req, res, next) => {
+const createJob = async (req, res) => {
   //TODO Additional check for who can create a new Job
   try {
-    const job = req.body;
+    const { job } = req.body;
+    const comapnyId= job.company
     let NewJob = new Job(job);
     NewJob.save((err, result) => {
-      if (err) return res.json("Failed to add!!!!");
-      res.json({ Message: "Successfully added NewJob" });
+      if (err) return res.json('Failed to add!!!!');
+      res.json({ Message: 'Successfully added NewJob', result });
+      const company = await company.findOne({ _id: comapnyId })
+      if (company) {
+        await Company.findOneAndUpdate(
+          { _id: comapnyId },
+          { $push: { jobs: result.id } },
+          { upsert: true }
+        )
+          .then((result) => {
+            console.log(result);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     });
+
   } catch (err) {
     res.json({ Error: err.message });
   }
@@ -54,7 +71,7 @@ const updateJob = async (req, res, next) => {
         description: description ? description : checkifExists.description,
         deadline: deadline ? deadline : checkifExists.deadline,
         location: location ? location : checkifExists.location,
-        techs: techs ? techs : checkifExists.techs,
+        techs: techs.lenght>0 ? techs : checkifExists.techs,
       };
       await Job.findByIdAndUpdate(jobId, updatedJob, {
         new: true,
@@ -72,11 +89,13 @@ const updateJob = async (req, res, next) => {
 const deleteJob = async (req, res, next) => {
   //TODO Additional check for who delete jobs
   try {
-    const newId = req.params.jobId;
+    const {jobId} = req.params;
     const job = await Job.findOne({ _id: newId });
+    const companyId= job.company
     if (job) {
       await Job.findByIdAndDelete(newId).then((result) => {
-        res.status(200).json({ message: "Successfully Deleted" });
+        res.status(200).json({ message: 'Successfully Deleted' });
+        // check if job get deleted autometically from the company or not!!
       });
     } else {
       throw new Error(`Job ${newId} not found`);

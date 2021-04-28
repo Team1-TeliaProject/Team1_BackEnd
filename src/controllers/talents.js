@@ -95,8 +95,8 @@ const updateTalent = async (req, res) => {
         linkedin: linkedin ? linkedin : user.linkedin,
         about: about ? about : user.about,
         level: level ? level : user.level,
-        type: type ? type : user.type,
-        techs: techs ? techs : user.techs,
+        type: type.lenght > 0 ? type : user.type,
+        techs: techs.lenght > 0 ? techs : user.techs,
         photo: photo ? photo : user.photo,
       };
 

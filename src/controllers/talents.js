@@ -28,11 +28,12 @@ const registerTalent = async (req, res) => {
         linkedin: '',
         about: '',
         level: '',
-        type: '',
+        type: [],
         techs: [],
         photo: '',
         likes: [],
         superLikes: [],
+        matches: [],
       };
       const savedUser = await new Talent(newUser).save();
       res.json(savedUser);
@@ -95,10 +96,12 @@ const updateTalent = async (req, res) => {
         linkedin: linkedin ? linkedin : user.linkedin,
         about: about ? about : user.about,
         level: level ? level : user.level,
-        type: type.lenght > 0 ? type : user.type,
-        techs: techs.lenght > 0 ? techs : user.techs,
+        type: type.length > 0 ? type : user.type,
+        techs: techs.length > 0 ? techs : user.techs,
         photo: photo ? photo : user.photo,
       };
+
+      console.log('upd--', updates);
 
       await Talent.findByIdAndUpdate(userId, updates, { new: true })
         .then((result) => {

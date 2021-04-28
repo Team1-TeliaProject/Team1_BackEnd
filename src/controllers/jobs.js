@@ -1,5 +1,5 @@
 const Job = require('../modals/job.js');
-const Company= require('../modals/company')
+const Company = require('../modals/company');
 
 const getAllJobs = async (req, res, next) => {
   //loads all the jobs from the db, filtering done on client side
@@ -14,37 +14,66 @@ const getOneJob = async (req, res, next) => {
   //loads a single job item with given id
   try {
     const newId = req.params.jobId;
-    const result = await Job.findOne({ _id: newId });
-    res.json({ result });
+    const job = await Job.findOne({ _id: newId });
+    res.send(job);
   } catch (err) {
     res.json({ Error: err.message });
   }
 };
+
+const getJobsByCompany = async (req, res) => {
+  try {
+    const { company } = req.params;
+    const jobs = await Job.find({ company: company });
+    res.send(jobs);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const createJob = async (req, res) => {
   //TODO Additional check for who can create a new Job
   try {
-    const { job } = req.body;
-    const comapnyId= job.company
-    let NewJob = new Job(job);
-    NewJob.save((err, result) => {
-      if (err) return res.json('Failed to add!!!!');
-      res.json({ Message: 'Successfully added NewJob', result });
-      const company = await company.findOne({ _id: comapnyId })
-      if (company) {
+    const {
+      company,
+      title,
+      deadline,
+      location,
+      description,
+      level,
+      type,
+      techs,
+    } = req.body;
+
+    const newJob = {
+      company,
+      title,
+      deadline,
+      location,
+      description,
+      level,
+      type,
+      techs,
+    };
+
+    const savedJob = await new Job(newJob).save();
+    if (savedJob) {
+      const foundCompany = await Company.findOne({ _id: company });
+      if (foundCompany) {
         await Company.findOneAndUpdate(
-          { _id: comapnyId },
-          { $push: { jobs: result.id } },
+          { _id: company },
+          { $push: { jobs: savedJob.id } },
           { upsert: true }
         )
           .then((result) => {
             console.log(result);
           })
           .catch((error) => {
-            console.log(error);
+            throw new Error('new job not added to the company');
           });
       }
-    });
-
+      res.send(savedJob);
+    }
   } catch (err) {
     res.json({ Error: err.message });
   }
@@ -71,7 +100,7 @@ const updateJob = async (req, res, next) => {
         description: description ? description : checkifExists.description,
         deadline: deadline ? deadline : checkifExists.deadline,
         location: location ? location : checkifExists.location,
-        techs: techs.lenght>0 ? techs : checkifExists.techs,
+        techs: techs.length > 0 ? techs : checkifExists.techs,
       };
       await Job.findByIdAndUpdate(jobId, updatedJob, {
         new: true,
@@ -89,14 +118,12 @@ const updateJob = async (req, res, next) => {
 const deleteJob = async (req, res, next) => {
   //TODO Additional check for who delete jobs
   try {
-    const {jobId} = req.params;
-    const job = await Job.findOne({ _id: newId });
-    const companyId= job.company
+    const { jobId } = req.params;
+    const job = await Job.findOne({ _id: jobId });
+    const companyId = job.company;
     if (job) {
-      await Job.findByIdAndDelete(newId).then((result) => {
-        res.status(200).json({ message: 'Successfully Deleted' });
-        // check if job get deleted autometically from the company or not!!
-      });
+      await Job.findByIdAndDelete(jobId);
+      res.status(200).json({ message: `Job ${jobId} successfully deleted` });
     } else {
       throw new Error(`Job ${newId} not found`);
     }
@@ -105,4 +132,11 @@ const deleteJob = async (req, res, next) => {
   }
 };
 
-module.exports = { getAllJobs, getOneJob, createJob, updateJob, deleteJob };
+module.exports = {
+  getAllJobs,
+  getOneJob,
+  createJob,
+  updateJob,
+  deleteJob,
+  getJobsByCompany,
+};

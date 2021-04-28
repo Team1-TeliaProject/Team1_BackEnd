@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
 
 const Company = require('../modals/company');
+const talent = require('../modals/talent');
 const { SECRET } = require('../utils/config');
 
 const registerCompany = async (req, res) => {
@@ -98,10 +99,56 @@ const deleteCompany = async (req, res) => {
   }
 };
 
+const like = async (req, res) => {
+  try {
+    const { talentId, companyId } = req.body;
+    const company = await Company.findOne({ _id: companyId });
+    if (company) {
+      await Company.findOneAndUpdate(
+        { _id: companyId },
+        { $push: { likes: talentId.id } },
+        { upsert: true }
+      )
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const superlike = async (req, res) => {
+  try {
+    const { talentId, companyId } = req.body;
+    const company = await Company.findOne({ _id: companyId });
+    if (company) {
+      await Company.findOneAndUpdate(
+        { _id: companyId },
+        { $push: { superLikes: talentId } },
+        { upsert: true }
+      )
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   registerCompany,
   getCompanies,
   getOneCompany,
   updateCompany,
   deleteCompany,
+  like,
+  superlike,
 };

@@ -23,6 +23,8 @@ const loginUser = async (req, res) => {
         email,
         name: userCompany.name,
         userId: userCompany.id,
+        photo: userCompany.logo,
+        userType: userCompany.userType,
       };
       const token = await JWT.sign(userInfo, SECRET);
       res.status(200).send({ token, userInfo });
@@ -40,6 +42,7 @@ const loginUser = async (req, res) => {
         lastName: userTalent.lastName,
         photo: userTalent.photo,
         userId: userTalent.id,
+        userType: userTalent.userType,
       };
       const token = await JWT.sign(userInfo, SECRET);
       res.status(200).send({ token, userInfo });

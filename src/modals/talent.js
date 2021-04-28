@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const talentSchema = new mongoose.Schema({
+  userType: {
+    type: String,
+    default: 'talent',
+  },
+
   matches: [
     {
       type: mongoose.Schema.Types.ObjectId,

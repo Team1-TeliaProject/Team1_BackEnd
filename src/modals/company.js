@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const companySchema = new mongoose.Schema({
+  userType: {
+    type: String,
+    default: 'company',
+  },
+
   matches: [
     {
       type: mongoose.Schema.Types.ObjectId,

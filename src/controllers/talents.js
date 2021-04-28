@@ -133,10 +133,56 @@ const deleteTalent = async (req, res) => {
   }
 };
 
+const like = async (req, res) => {
+  try {
+    const { talentId, jobId } = req.body;
+    const talent = await talent.findOne({ _id: talentId });
+    if (talent) {
+      await Talent.findOneAndUpdate(
+        { _id: talentId },
+        { $push: { likes: jobId } },
+        { upsert: true }
+      )
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const superlike = async (req, res) => {
+  try {
+    const { talentId, jobId } = req.body;
+    const talent = await Talent.findOne({ _id: talentId });
+    if (talent) {
+      await Talent.findOneAndUpdate(
+        { _id: talentId },
+        { $push: { superLikes: jobId } },
+        { upsert: true }
+      )
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   registerTalent,
   getTalents,
   getOneTalent,
   updateTalent,
   deleteTalent,
+  like,
+  superlike,
 };

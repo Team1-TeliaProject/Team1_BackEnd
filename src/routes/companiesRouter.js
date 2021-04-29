@@ -6,7 +6,7 @@ const {
   updateCompany,
   deleteCompany,
   like,
-  superLike,
+  superlike,
 } = require('../controllers/companies');
 
 companiesRouter.get('/', getCompanies);
@@ -15,6 +15,6 @@ companiesRouter.post('/register', registerCompany);
 companiesRouter.put('/:userId', updateCompany);
 companiesRouter.delete('/:userId', deleteCompany);
 companiesRouter.post('/like', like);
-companiesRouter.post('/superlike', superLike);
+companiesRouter.post('/superlike', superlike);
 
 module.exports = companiesRouter;

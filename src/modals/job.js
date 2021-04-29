@@ -11,10 +11,12 @@ const jobSchema = new mongoose.Schema({
     required: 'Job title is required',
   },
 
-  type: {
-    type: String,
-    required: 'Job type is required',
-  },
+  type: [
+    {
+      type: String,
+      required: 'Job type is required',
+    },
+  ],
 
   level: {
     type: String,

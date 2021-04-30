@@ -23,6 +23,7 @@ const registerCompany = async (req, res) => {
         location: '',
         website: '',
         about: '',
+        techs: [],
         logo: '',
         likes: [],
         superLikes: [],
@@ -59,12 +60,13 @@ const updateCompany = async (req, res) => {
     const { userId } = req.params;
     const user = await Company.findOne({ _id: userId });
     if (user) {
-      const { name, location, website, about, logo } = req.body;
+      const { name, location, website, about, logo, techs } = req.body;
       const updates = {
         name: name ? name : user.name,
         location: location ? location : user.location,
         website: website ? website : user.website,
         about: about ? about : user.about,
+        techs: techs.length > 0 ? techs : user.techs,
         logo: logo ? logo : user.logo,
       };
 

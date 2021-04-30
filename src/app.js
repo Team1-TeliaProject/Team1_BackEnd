@@ -10,9 +10,12 @@ const companiesRouter = require('./routes/companiesRouter');
 const loginRouter = require('./routes/loginRouter');
 const matchesRouter = require('./routes/matchesRouter');
 const likesRouter = require('./routes/likesRouter');
+//const chatRouter = require('./routes/chatRouter');
+
 
 app.use(cors());
 app.use(express.json());
+
 
 mongoose
   .connect(MONGODB_URI, {
@@ -33,5 +36,6 @@ app.use('/api/companies', companiesRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/matches', matchesRouter);
 app.use('/api/likes', likesRouter);
+//app.use('/api/chat', chatRouter);
 
 module.exports = app;

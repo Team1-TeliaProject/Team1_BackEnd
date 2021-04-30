@@ -101,16 +101,17 @@ const deleteCompany = async (req, res) => {
 
 const like = async (req, res) => {
   try {
-    const { talentId, companyId } = req.body;
-    const company = await Company.findOne({ _id: companyId });
+    const { userId, talentId } = req.body;
+    const company = await Company.findOne({ _id: userId });
     if (company) {
       await Company.findOneAndUpdate(
-        { _id: companyId },
-        { $push: { likes: talentId.id } },
+        { _id: userId },
+        { $push: { likes: talentId } },
         { upsert: true }
       )
         .then((result) => {
           console.log(result);
+          res.json({ Message: 'Liked Talent' });
         })
         .catch((error) => {
           console.log(error);
@@ -123,16 +124,17 @@ const like = async (req, res) => {
 
 const superlike = async (req, res) => {
   try {
-    const { talentId, companyId } = req.body;
-    const company = await Company.findOne({ _id: companyId });
+    const { userId, talentId } = req.body;
+    const company = await Company.findOne({ _id: userId });
     if (company) {
       await Company.findOneAndUpdate(
-        { _id: companyId },
+        { _id: userId },
         { $push: { superLikes: talentId } },
         { upsert: true }
       )
         .then((result) => {
           console.log(result);
+          res.json({ Message: 'Superliked Talent' });
         })
         .catch((error) => {
           console.log(error);

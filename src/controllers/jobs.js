@@ -4,7 +4,7 @@ const Company = require('../modals/company');
 const getAllJobs = async (req, res, next) => {
   //loads all the jobs from the db, filtering done on client side
   try {
-    const result = await Job.find({});
+    const result = await Job.find({}).populate('company');
     res.json(result);
   } catch (err) {
     res.json({ Error: err.message });

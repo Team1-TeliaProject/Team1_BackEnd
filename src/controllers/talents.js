@@ -138,16 +138,17 @@ const deleteTalent = async (req, res) => {
 
 const like = async (req, res) => {
   try {
-    const { talentId, jobId } = req.body;
-    const talent = await talent.findOne({ _id: talentId });
+    const { userId, jobId } = req.body;
+    const talent = await Talent.findOne({ _id: userId });
     if (talent) {
       await Talent.findOneAndUpdate(
-        { _id: talentId },
+        { _id: userId },
         { $push: { likes: jobId } },
         { upsert: true }
       )
         .then((result) => {
           console.log(result);
+          res.json({ Message: 'Like recorded to the user' });
         })
         .catch((error) => {
           console.log(error);
@@ -160,16 +161,17 @@ const like = async (req, res) => {
 
 const superlike = async (req, res) => {
   try {
-    const { talentId, jobId } = req.body;
-    const talent = await Talent.findOne({ _id: talentId });
+    const { userId, jobId } = req.body;
+    const talent = await Talent.findOne({ _id: userId });
     if (talent) {
       await Talent.findOneAndUpdate(
-        { _id: talentId },
+        { _id: userId },
         { $push: { superLikes: jobId } },
         { upsert: true }
       )
         .then((result) => {
           console.log(result);
+          res.json({ Message: 'Superlike recorded to the user' });
         })
         .catch((error) => {
           console.log(error);

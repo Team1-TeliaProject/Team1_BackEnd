@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const matchSchema = new mongoose.Schema({
-  job: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Job',
+  type: {
+    type: String,
   },
+
   talent: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Talent',

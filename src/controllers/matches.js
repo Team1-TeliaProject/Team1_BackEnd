@@ -24,10 +24,10 @@ const getAllMatches = async (req, res) => {
 
 const createMatch = async (req, res) => {
   try {
-    const { jobId, talentId, companyId } = req.body;
-    const newMatch = { job: jobId, talent: talentId, company: companyId };
+    const { companyId, talentId, type } = req.body;
+    const newMatch = { type, talent: talentId, company: companyId };
 
-    const savedMatch = new Match(newMatch).save();
+    const savedMatch = await new Match(newMatch).save();
 
     if (savedMatch) {
       const talent = await Talent.findOne({ _id: talentId });

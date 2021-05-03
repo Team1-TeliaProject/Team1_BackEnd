@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 const { SECRET } = require('../utils/config');
 
+//Token extractor middleware
 export const tokenExtractor = (request, response, next) => {
   const authorization = request.get('authorization');
   if (authorization && authorization.toLowerCase().startsWith('bearer')) {
@@ -12,6 +13,7 @@ export const tokenExtractor = (request, response, next) => {
   next();
 };
 
+//Authentication middleware
 export const isAuthenticated = async (req, res, next) => {
   const token = req.get('authorization');
   if (!token) return res.status(401).send('excess denied');

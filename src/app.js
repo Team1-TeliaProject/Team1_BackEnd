@@ -9,7 +9,6 @@ const talentsRouter = require('./routes/talentsRouter');
 const companiesRouter = require('./routes/companiesRouter');
 const loginRouter = require('./routes/loginRouter');
 const matchesRouter = require('./routes/matchesRouter');
-const likesRouter = require('./routes/likesRouter');
 
 app.use(cors());
 app.use(express.json());
@@ -32,6 +31,5 @@ app.use('/api/talents', talentsRouter);
 app.use('/api/companies', companiesRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/matches', matchesRouter);
-app.use('/api/likes', likesRouter);
 
 module.exports = app;

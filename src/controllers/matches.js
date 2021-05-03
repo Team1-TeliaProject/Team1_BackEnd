@@ -4,13 +4,15 @@ const Company = require('../modals/company.js');
 
 const getAllMatches = async (req, res) => {
   try {
-    const { id, userType } = req.params;
-
-    const user =
-      userType === 'talent'
-        ? await Talent.findOne({ _id: id })
-        : await Company.findOne({ _id: id });
-    const matches = user.matches;
+    const { id, type } = req.params;
+    const matches =
+      type === 'talent'
+        ? await Match.find({ talent: id })
+            .populate('talent')
+            .populate('company')
+        : await Match.find({ company: id })
+            .populate('talent')
+            .populate('company');
 
     if (matches) {
       res.send(matches);
@@ -24,10 +26,10 @@ const getAllMatches = async (req, res) => {
 
 const createMatch = async (req, res) => {
   try {
-    const { jobId, talentId, companyId } = req.body;
-    const newMatch = { job: jobId, talent: talentId, company: companyId };
+    const { companyId, talentId, type } = req.body;
+    const newMatch = { type, talent: talentId, company: companyId };
 
-    const savedMatch = new Match(newMatch).save();
+    const savedMatch = await new Match(newMatch).save();
 
     if (savedMatch) {
       const talent = await Talent.findOne({ _id: talentId });

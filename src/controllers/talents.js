@@ -53,18 +53,20 @@ const registerTalent = async (req, res) => {
       res.json(savedUser);
     }
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ Error: error.message });
   }
 };
-
-//Login
 
 const getTalents = async (req, res) => {
   try {
     const users = await Talent.find({});
-    res.send(users);
+    if (users) {
+      res.send(users);
+    } else {
+      throw new Error('Talents not found');
+    }
   } catch (error) {
-    res.json({ Error: error.message });
+    res.status(401).json({ Error: error.message });
   }
 };
 
@@ -72,9 +74,13 @@ const getOneTalent = async (req, res) => {
   try {
     const { userId } = req.params;
     const user = await Talent.findOne({ _id: userId });
-    res.send(user);
+    if (user) {
+      res.send(user);
+    } else {
+      throw new Error('Talent not found!');
+    }
   } catch (error) {
-    res.json({ Error: error.message });
+    res.status(400).json({ Error: error.message });
   }
 };
 
@@ -115,8 +121,6 @@ const updateTalent = async (req, res) => {
         photo: photo ? photo : user.photo,
       };
 
-      console.log('upd--', updates);
-
       await Talent.findByIdAndUpdate(userId, updates, { new: true })
         .then((result) => {
           res
@@ -130,7 +134,7 @@ const updateTalent = async (req, res) => {
       throw new Error('No user found with the given ID');
     }
   } catch (error) {
-    res.json({ Error: error.message });
+    res.status(400).json({ Error: error.message });
   }
 };
 
@@ -146,7 +150,7 @@ const deleteTalent = async (req, res) => {
       throw new Error('User with given id not found!');
     }
   } catch (error) {
-    res.json({ Error: error.message });
+    res.status(400).json({ Error: error.message });
   }
 };
 
@@ -169,7 +173,7 @@ const like = async (req, res) => {
         });
     }
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ Error: error.message });
   }
 };
 
@@ -192,7 +196,7 @@ const superlike = async (req, res) => {
         });
     }
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ Error: error.message });
   }
 };
 

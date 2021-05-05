@@ -8,6 +8,20 @@ const { SECRET } = require('../utils/config');
 const registerTalent = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
+
+    if (password.length < 4) {
+      throw new Error('Password should be at least 4 characters long');
+    }
+
+    const validateEmail = (mailaddr) => {
+      var re = /.+@(gmail|yahoo|outlook|mail|icloud|aol)\.com$/;
+      return re.test(mailaddr);
+    };
+
+    if (!validateEmail(email)) {
+      throw new Error('Wrong email format');
+    }
+
     const saltRounds = 10;
 
     const existingUser = await Talent.findOne({ email: email });

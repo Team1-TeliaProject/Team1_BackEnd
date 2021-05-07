@@ -14,7 +14,7 @@ const registerTalent = async (req, res) => {
     }
 
     const validateEmail = (mailaddr) => {
-      var re = /.+@(gmail|yahoo|outlook|mail|icloud|aol)\.com$/;
+      var re = /\S+@\S+\.\S+/;
       return re.test(mailaddr);
     };
 

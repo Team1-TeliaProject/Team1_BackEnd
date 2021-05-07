@@ -8,6 +8,20 @@ const { SECRET } = require('../utils/config');
 const registerCompany = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+
+    if (password.length < 4) {
+      throw new Error('Password should be at least 4 characters long');
+    }
+
+    const validateEmail = (mailaddr) => {
+      var re = /\S+@\S+\.\S+/;
+      return re.test(mailaddr);
+    };
+
+    if (!validateEmail(email)) {
+      throw new Error('Wrong email format');
+    }
+
     const saltRounds = 10;
 
     const existingUser = await Company.findOne({ email: email });

@@ -1,5 +1,5 @@
-const app = require('./app');
 const http = require('http');
+const app = require('./app');
 const config = require('./utils/config');
 const server = http.createServer(app);
 
@@ -16,7 +16,10 @@ var io = require('socket.io')(server, {
   },
 });
 
-const { saveMessage, getAndCombineMessages } = require('./controllers/userChats');
+const {
+  saveMessage,
+  getAndCombineMessages,
+} = require('./controllers/userChats');
 
 io.on('connection', function (socket) {
   socket.on('join', async ({ me, contact, room }) => {
